@@ -11,7 +11,7 @@ import warnings
 warnings.filterwarnings('ignore')
  
 # 2. Read Data
-credit_df = pd.read_csv("./MLOps_loan_default/data/credit_train.csv", header = 0, sep = ',')
+credit_df = pd.read_csv("./data/credit_train.csv", header = 0, sep = ',')
  
 # 3. Data Processing & Cleansing
 credit_df['Months since last delinquent'] = credit_df['Months since last delinquent'].fillna(0)
@@ -41,7 +41,7 @@ credit_df.drop(['Loan ID', 'Customer ID'], axis = 1, inplace=True)
 from sklearn.preprocessing import LabelEncoder
 le = LabelEncoder()
  
-binary_cols = [col for col in credit_df.columns if credit_df[col].dtype == 'object' and
+binary_cols = [col for col in credit_df.columns if credit_df[col].dtype == 'str' and
                credit_df[col].nunique()>1]
 print(binary_cols)
  
@@ -72,9 +72,9 @@ clf_tree_best = DecisionTreeClassifier(ccp_alpha = 0.001, criterion = 'gini',
  
 clf_tree_best.fit(X_train, Y_train)
  
-joblib.dump(clf_tree_best, "./MLOps_loan_default/model/loan_default.pkl")
+joblib.dump(clf_tree_best, "./model/loan_default.pkl")
  
 print("\nModel Saved Successfully!")
 
 # save test sample as csv for prediction
-X_test.to_csv("./MLOps_loan_default/data/x_test_sample.csv")
+X_test.to_csv("./data/x_test_sample.csv")
